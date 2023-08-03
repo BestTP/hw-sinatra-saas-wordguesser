@@ -7,6 +7,56 @@ class WordGuesserGame
 
   def initialize(word)
     @word = word
+    @correct = ''
+    @correct_word = []
+    @wrong = ''
+    @wrong_word = []
+    @answer = ''
+    @count = 0
+    @status = :play
+    @word.length.times {
+      @answer += '-'
+    }
+  end
+
+  def word
+    @word
+  end
+
+  def guess(letter)
+    raise ArgumentError.new('There is no word') if letter == nil || letter.length == 0 || letter =~ /[^a-z]/i
+
+    letter.downcase!
+
+    return false if @correct_word.include?(letter) || @wrong_word.include?(letter)
+
+    if @word.include?(letter)
+      @correct_word.append(letter)
+      @correct = letter
+      @word.split('').each_with_index { |char, idx| @answer[idx] = letter if char == letter }
+    else
+      @wrong_word.append(letter)
+      @wrong = letter
+    end
+    @status = :win if @answer == @word
+    @status = :lose if @count >= 6
+    @count += 1
+  end
+
+  def word_with_guesses
+    @answer
+  end
+
+  def guesses
+    @correct
+  end
+
+  def wrong_guesses
+    @wrong
+  end
+
+  def check_win_or_lose
+    @status
   end
 
   # You can test it by installing irb via $ gem install irb
