@@ -12,7 +12,7 @@ class WordGuesserGame
     @wrong = ''
     @wrong_word = []
     @answer = ''
-    @count = 0
+    @count = 1
     @status = :play
     @word.length.times {
       @answer += '-'
@@ -39,7 +39,7 @@ class WordGuesserGame
       @wrong = letter
     end
     @status = :win if @answer == @word
-    @status = :lose if @count >= 6
+    @status = :lose if @count >= 7
     @count += 1
   end
 
