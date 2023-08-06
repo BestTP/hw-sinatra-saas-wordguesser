@@ -4,9 +4,12 @@ class WordGuesserGame
   # to make the tests in spec/wordguesser_game_spec.rb pass.
 
   # Get a word from remote "random word" service
+  attr_accessor :word, :guesses, :wrong_guesses
 
   def initialize(word)
     @word = word
+    @guesses = ''
+    @wrong_guesses = ''
     @correct = ''
     @correct_word = []
     @wrong = ''
@@ -32,11 +35,11 @@ class WordGuesserGame
 
     if @word.include?(letter)
       @correct_word.append(letter)
-      @correct = letter
+      @guesses = letter
       @word.split('').each_with_index { |char, idx| @answer[idx] = letter if char == letter }
     else
       @wrong_word.append(letter)
-      @wrong = letter
+      @wrong_guesses = letter
     end
     @status = :win if @answer == @word
     @status = :lose if @count >= 7
@@ -45,14 +48,6 @@ class WordGuesserGame
 
   def word_with_guesses
     @answer
-  end
-
-  def guesses
-    @correct
-  end
-
-  def wrong_guesses
-    @wrong
   end
 
   def check_win_or_lose
